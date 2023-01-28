@@ -1,28 +1,25 @@
-import promptSync from "prompt-sync";
-import { z } from "zod";
-
-const prompt = promptSync({ sigint: true });
-
-const schema = z.string();
-
-/**
- * The master switch whether to continue running the app.
- */
-let runProgram = true;
+import inquirer from "inquirer";
+// const questions = [{}];
 
 const main = async () => {
-  while (runProgram) {
-    const command = prompt("What would you like to do? ");
+  const answers = await inquirer.prompt([
+    {
+      name: "Select",
+      type: "list",
+      message: "Please select an answer: ",
+      choices: ["One", "two", "three"],
+    },
+  ]);
 
-    if (command === "q" || command === "quit") {
-      runProgram = false;
-    }
-  }
+  console.dir(answers);
 };
 
 main()
-  .then(() => process.exit(0))
-  .catch((e) => {
-    console.error(e);
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((error: unknown) => {
+    console.error(error);
+
     process.exit(1);
   });
